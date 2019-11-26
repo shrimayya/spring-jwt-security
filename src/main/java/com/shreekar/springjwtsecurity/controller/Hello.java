@@ -13,10 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class Hello {
@@ -50,5 +47,21 @@ public class Hello {
         return ResponseEntity.ok(new AuthResponse(jwt));
 
 
+    }
+
+
+    @GetMapping("/home")
+    public String home() {
+        return "<h1>home<h1>";
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "<h1>user<h1>";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "<h1>admin<h1>";
     }
 }

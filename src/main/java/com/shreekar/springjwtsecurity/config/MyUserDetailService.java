@@ -1,30 +1,29 @@
 package com.shreekar.springjwtsecurity.config;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import com.shreekar.springjwtsecurity.entity.User;
+import com.shreekar.springjwtsecurity.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MyUserDetailService implements UserDetailsService {
 
+
+    @Autowired
+    UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return new User("test","test",new ArrayList<>());
+
+        Optional<User> user= userRepository.findByUserName(userName);
+
+        user.orElseThrow(()->new UsernameNotFoundException("No username"));
+        return user.map(MyUserDetail::new).get();
+
     }
 }
